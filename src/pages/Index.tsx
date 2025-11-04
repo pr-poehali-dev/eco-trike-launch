@@ -104,6 +104,20 @@ const Index = () => {
               </Link>
             ))}
           </div>
+          
+          <div className="mt-12 bg-blue-50 border border-blue-200 rounded-2xl p-6 max-w-4xl mx-auto">
+            <div className="flex items-start gap-4">
+              <Icon name="Clock" size={28} className="text-blue-600 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="font-bold text-blue-900 text-xl mb-2">Производство под заказ</h3>
+                <p className="text-blue-800 leading-relaxed">
+                  Все товары на нашем сайте изготавливаются после оформления заказа. Это позволяет нам предложить вам лучшую цену 
+                  и учесть все ваши пожелания. Срок изготовления и доставки составляет от <strong>30 до 50 дней</strong> с момента 
+                  подтверждения заказа.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

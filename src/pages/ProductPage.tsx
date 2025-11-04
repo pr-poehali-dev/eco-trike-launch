@@ -91,12 +91,12 @@ const ProductPage = () => {
             </div>
 
             <div>
-              <div className="mb-4">
-                {product.inStock ? (
-                  <Badge className="bg-green-500">В наличии</Badge>
-                ) : (
-                  <Badge className="bg-red-500">Нет в наличии</Badge>
-                )}
+              <div className="mb-4 space-y-2">
+                <Badge className="bg-blue-500">Под заказ</Badge>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Icon name="Clock" size={16} />
+                  <span>Срок доставки: 30-50 дней</span>
+                </div>
               </div>
 
               <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
@@ -113,7 +113,17 @@ const ProductPage = () => {
                 {product.price.toLocaleString('ru-RU')} ₽
               </div>
 
-              <p className="text-gray-700 text-lg mb-8">{product.description}</p>
+              <p className="text-gray-700 text-lg mb-4">{product.description}</p>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+                <div className="flex items-start gap-3">
+                  <Icon name="Info" size={20} className="text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-blue-900 mb-1">Изготовление под заказ</p>
+                    <p className="text-sm text-blue-800">Все товары производятся после оформления заказа. Срок доставки составляет от 30 до 50 дней с момента подтверждения.</p>
+                  </div>
+                </div>
+              </div>
 
               <Card className="mb-8">
                 <CardContent className="pt-6">

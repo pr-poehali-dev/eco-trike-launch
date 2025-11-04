@@ -57,7 +57,17 @@ const Checkout = () => {
       
       <div className="pt-24 pb-12 px-4">
         <div className="container mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Оформление заказа</h1>
+          <h1 className="text-4xl font-bold mb-4">Оформление заказа</h1>
+          
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+            <div className="flex items-start gap-3">
+              <Icon name="Info" size={20} className="text-blue-600 mt-0.5" />
+              <div>
+                <p className="font-semibold text-blue-900 mb-1">Изготовление под заказ</p>
+                <p className="text-sm text-blue-800">Все товары производятся после оформления заказа. Срок доставки составляет от 30 до 50 дней с момента подтверждения.</p>
+              </div>
+            </div>
+          </div>
           
           <form onSubmit={handleSubmit}>
             <div className="grid lg:grid-cols-3 gap-8">

@@ -53,9 +53,7 @@ const ProductCard = ({ id, name, price, image, category, inStock, rating = 4.5, 
               alt={name}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             />
-            {!inStock && (
-              <Badge className="absolute top-3 left-3 bg-red-500">Нет в наличии</Badge>
-            )}
+            <Badge className="absolute top-3 left-3 bg-blue-500">Под заказ • 30-50 дней</Badge>
             <Button
               variant="ghost"
               size="icon"
