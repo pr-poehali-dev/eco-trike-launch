@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import ProductCard from '@/components/ProductCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import { products, getProductsByCategory } from '@/data/products';
+import { getProductsByCategory, Product } from '@/lib/api';
 
 const Tricycles = () => {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sortBy, setSortBy] = useState('popular');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categoryProducts = getProductsByCategory('tricycles');
+  useEffect(() => {
+    getProductsByCategory('tricycles').then(data => {
+      setProducts(data);
+      setLoading(false);
+    });
+  }, []);
+
+  const categoryProducts = products;
 
   const filteredProducts = categoryProducts.filter(
     p => p.price >= priceRange[0] && p.price <= priceRange[1]
@@ -68,14 +77,30 @@ const Tricycles = () => {
             </aside>
 
             <div className="lg:col-span-3">
-              <div className="mb-4 text-gray-600">
-                Найдено товаров: {sortedProducts.length}
-              </div>
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {sortedProducts.map((product) => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
-              </div>
+              {loading ? (
+                <div className="text-center py-12">Загрузка...</div>
+              ) : (
+                <>
+                  <div className="mb-4 text-gray-600">
+                    Найдено товаров: {sortedProducts.length}
+                  </div>
+                  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {sortedProducts.map((product) => (
+                      <ProductCard 
+                        key={product.product_id} 
+                        id={product.product_id}
+                        name={product.name}
+                        price={product.price}
+                        image={product.image}
+                        category={product.category}
+                        inStock={product.in_stock}
+                        rating={product.rating}
+                        reviews={product.reviews}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

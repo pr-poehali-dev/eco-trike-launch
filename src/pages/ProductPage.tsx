@@ -1,22 +1,43 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
-import { getProductById } from '@/data/products';
+import { getProductById, Product } from '@/lib/api';
 import { useCart } from '@/contexts/CartContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
 import { toast } from '@/hooks/use-toast';
 
 const ProductPage = () => {
   const { id } = useParams();
-  const product = getProductById(id || '');
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+
+  useEffect(() => {
+    if (id) {
+      getProductById(id).then(data => {
+        setProduct(data);
+        setLoading(false);
+      });
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="pt-24 container mx-auto px-4 text-center">
+          <p>Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -32,12 +53,12 @@ const ProductPage = () => {
     );
   }
 
-  const favorite = isFavorite(product.id);
+  const favorite = isFavorite(product.product_id);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart({ 
-        id: product.id, 
+        id: product.product_id, 
         name: product.name, 
         price: product.price, 
         image: product.image, 
@@ -52,11 +73,11 @@ const ProductPage = () => {
 
   const handleToggleFavorite = () => {
     if (favorite) {
-      removeFromFavorites(product.id);
+      removeFromFavorites(product.product_id);
       toast({ title: "Удалено из избранного" });
     } else {
       addToFavorites({ 
-        id: product.id, 
+        id: product.product_id, 
         name: product.name, 
         price: product.price, 
         image: product.image, 
@@ -166,10 +187,10 @@ const ProductPage = () => {
                   size="lg" 
                   className="flex-1 text-lg"
                   onClick={handleAddToCart}
-                  disabled={!product.inStock}
+                  disabled={!product.in_stock}
                 >
                   <Icon name="ShoppingCart" size={20} className="mr-2" />
-                  {product.inStock ? 'Добавить в корзину' : 'Недоступно'}
+                  {product.in_stock ? 'Добавить в корзину' : 'Недоступно'}
                 </Button>
                 <Button 
                   size="lg" 
