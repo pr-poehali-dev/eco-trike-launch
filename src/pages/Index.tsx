@@ -42,9 +42,7 @@ const Index = () => {
             <a href="#legal" className="text-gray-700 hover:text-primary transition-colors">Документы</a>
             <a href="#contact" className="text-gray-700 hover:text-primary transition-colors">Контакты</a>
           </div>
-          <Button asChild className="hidden md:inline-flex">
-            <a href="#contact">Заказать тест-драйв</a>
-          </Button>
+
         </div>
       </nav>
 
@@ -60,9 +58,6 @@ const Index = () => {
                 Экологичный трехместный электротрицикл, сочетающий комфорт автомобиля с экономичностью и маневренностью мопеда
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="text-lg px-8" asChild>
-                  <a href="#contact">Заказать тест-драйв</a>
-                </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8" asChild>
                   <a href="#specs">Узнать больше</a>
                 </Button>
