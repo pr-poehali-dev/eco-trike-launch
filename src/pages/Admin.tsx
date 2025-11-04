@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
+import ProductImport from '@/components/ProductImport';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -111,6 +112,41 @@ const Admin = () => {
       }
     } catch (error) {
       toast({ title: 'Ошибка удаления', variant: 'destructive' });
+    }
+  };
+
+  const handleBulkImport = async (products: any[]) => {
+    try {
+      const responses = await Promise.all(
+        products.map(product => 
+          fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              product_id: product.name.toLowerCase().replace(/\s+/g, '-'),
+              name: product.name,
+              price: product.price,
+              category: product.category,
+              image: product.image,
+              description: product.description,
+              specs: product.specs ? Object.entries(product.specs).map(([label, value]) => ({ label, value: String(value) })) : [],
+              in_stock: product.in_stock,
+              rating: product.rating,
+              reviews: product.reviews
+            })
+          })
+        )
+      );
+
+      const successCount = responses.filter(r => r.ok).length;
+      toast({ 
+        title: `Импортировано ${successCount} из ${products.length} товаров`,
+        variant: successCount === products.length ? 'default' : 'destructive'
+      });
+      
+      loadProducts();
+    } catch (error) {
+      toast({ title: 'Ошибка импорта', variant: 'destructive' });
     }
   };
 
@@ -321,6 +357,10 @@ const Admin = () => {
                 </form>
               </DialogContent>
             </Dialog>
+          </div>
+
+          <div className="mb-8">
+            <ProductImport onImport={handleBulkImport} />
           </div>
 
           <Card>
