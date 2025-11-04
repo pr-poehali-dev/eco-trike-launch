@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -92,7 +93,39 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="features" className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16 animate-slide-up">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Каталог продукции</h2>
+            <p className="text-xl text-gray-600">Выберите категорию товаров</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {[
+              { path: '/cars', name: 'Машины', icon: 'Car', color: 'bg-blue-500' },
+              { path: '/tricycles', name: 'Трициклы', icon: 'Bike', color: 'bg-green-500' },
+              { path: '/quadricycles', name: 'Квадроциклы', icon: 'Truck', color: 'bg-orange-500' },
+              { path: '/motorcycles', name: 'Мотоциклы', icon: 'Bike', color: 'bg-red-500' },
+              { path: '/motorboats', name: 'Моторные лодки', icon: 'Ship', color: 'bg-cyan-500' },
+              { path: '/watercraft', name: 'Водные судна', icon: 'Anchor', color: 'bg-teal-500' },
+              { path: '/robots', name: 'Роботы', icon: 'Bot', color: 'bg-purple-500' },
+              { path: '/bicycles', name: 'Велосипеды', icon: 'Bike', color: 'bg-emerald-500' }
+            ].map((category, idx) => (
+              <Link key={idx} to={category.path}>
+                <Card className="hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group animate-fade-in border-2 hover:border-primary">
+                  <CardHeader className="text-center">
+                    <div className={`w-20 h-20 mx-auto rounded-2xl ${category.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                      <Icon name={category.icon} className="text-white" size={36} />
+                    </div>
+                    <CardTitle className="text-2xl">{category.name}</CardTitle>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="features" className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto">
           <div className="text-center mb-16 animate-slide-up">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Преимущества EcoTrike</h2>
