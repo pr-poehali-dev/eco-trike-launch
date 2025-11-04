@@ -1,103 +1,86 @@
-import Layout from '@/components/Layout';
+import { useState } from 'react';
+import Header from '@/components/Header';
 import ProductCard from '@/components/ProductCard';
-import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Icon from '@/components/ui/icon';
-
-const products = [
-  {
-    name: 'EcoQuad Adventure',
-    price: '425 000 ₽',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop',
-    specs: [
-      { label: 'Мощность', value: '3000 Вт' },
-      { label: 'Макс. скорость', value: '70 км/ч' },
-      { label: 'Запас хода', value: '100 км' },
-      { label: 'Тип', value: 'Внедорожный' }
-    ],
-    inStock: true
-  },
-  {
-    name: 'EcoQuad City',
-    price: '315 000 ₽',
-    image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=800&h=600&fit=crop',
-    specs: [
-      { label: 'Мощность', value: '2000 Вт' },
-      { label: 'Макс. скорость', value: '50 км/ч' },
-      { label: 'Запас хода', value: '80 км' },
-      { label: 'Тип', value: 'Городской' }
-    ],
-    inStock: true
-  },
-  {
-    name: 'EcoQuad Sport',
-    price: '565 000 ₽',
-    image: 'https://images.unsplash.com/photo-1600431521340-491eca880813?w=800&h=600&fit=crop',
-    specs: [
-      { label: 'Мощность', value: '5000 Вт' },
-      { label: 'Макс. скорость', value: '90 км/ч' },
-      { label: 'Запас хода', value: '120 км' },
-      { label: 'Тип', value: 'Спортивный' }
-    ],
-    inStock: true
-  },
-  {
-    name: 'EcoQuad Utility',
-    price: '389 000 ₽',
-    image: 'https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800&h=600&fit=crop',
-    specs: [
-      { label: 'Мощность', value: '2500 Вт' },
-      { label: 'Макс. скорость', value: '60 км/ч' },
-      { label: 'Грузоподъемность', value: '150 кг' },
-      { label: 'Тип', value: 'Грузовой' }
-    ],
-    inStock: true
-  }
-];
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
+import { products, getProductsByCategory } from '@/data/products';
 
 const Quadricycles = () => {
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
+  const [sortBy, setSortBy] = useState('popular');
+
+  const categoryProducts = getProductsByCategory('quadricycles');
+
+  const filteredProducts = categoryProducts.filter(
+    p => p.price >= priceRange[0] && p.price <= priceRange[1]
+  );
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortBy === 'price-asc') return a.price - b.price;
+    if (sortBy === 'price-desc') return b.price - a.price;
+    if (sortBy === 'rating') return b.rating - a.rating;
+    return 0;
+  });
+
   return (
-    <Layout>
-      <div className="container mx-auto px-4">
-        <div className="mb-12 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Электрические квадроциклы
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl">
-            Мощные и экологичные квадроциклы для города и бездорожья. Свобода передвижения без вреда природе.
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      
+      <div className="pt-24 pb-12 px-4">
+        <div className="container mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold mb-8">Электрические квадроциклы</h1>
+          
+          <div className="grid lg:grid-cols-4 gap-8">
+            <aside className="lg:col-span-1">
+              <div className="bg-white rounded-lg p-6 sticky top-24">
+                <h2 className="text-xl font-bold mb-6">Фильтры</h2>
+                
+                <div className="space-y-6">
+                  <div>
+                    <Label className="mb-4 block">Цена: {priceRange[0].toLocaleString()} - {priceRange[1].toLocaleString()} ₽</Label>
+                    <Slider
+                      min={0}
+                      max={1000000}
+                      step={10000}
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      className="mb-2"
+                    />
+                  </div>
 
-        <div className="flex flex-wrap gap-4 mb-8 items-center justify-between">
-          <div className="flex gap-3">
-            <Button variant="outline" size="sm">
-              <Icon name="SlidersHorizontal" size={18} className="mr-2" />
-              Фильтры
-            </Button>
-            <Select defaultValue="popular">
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Сортировка" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">По популярности</SelectItem>
-                <SelectItem value="price-asc">Сначала дешевые</SelectItem>
-                <SelectItem value="price-desc">Сначала дорогие</SelectItem>
-                <SelectItem value="new">Новинки</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="text-sm text-gray-600">
-            Найдено товаров: <span className="font-semibold">{products.length}</span>
-          </div>
-        </div>
+                  <div>
+                    <Label className="mb-2 block">Сортировка</Label>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="popular">Популярные</SelectItem>
+                        <SelectItem value="price-asc">Цена: по возрастанию</SelectItem>
+                        <SelectItem value="price-desc">Цена: по убыванию</SelectItem>
+                        <SelectItem value="rating">Рейтинг</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </aside>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {products.map((product, idx) => (
-            <ProductCard key={idx} {...product} />
-          ))}
+            <div className="lg:col-span-3">
+              <div className="mb-4 text-gray-600">
+                Найдено товаров: {sortedProducts.length}
+              </div>
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {sortedProducts.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

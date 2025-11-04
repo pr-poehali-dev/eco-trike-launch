@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -30,21 +31,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon name="Zap" className="text-primary" size={28} />
-            <span className="text-2xl font-bold text-primary">EcoTrike</span>
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-gray-700 hover:text-primary transition-colors">Преимущества</a>
-            <a href="#specs" className="text-gray-700 hover:text-primary transition-colors">Характеристики</a>
-            <a href="#legal" className="text-gray-700 hover:text-primary transition-colors">Документы</a>
-            <a href="#contact" className="text-gray-700 hover:text-primary transition-colors">Контакты</a>
-          </div>
-
-        </div>
-      </nav>
+      <Header />
 
       <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto">
