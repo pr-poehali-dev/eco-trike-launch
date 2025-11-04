@@ -1,6 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const categories = [
   { path: '/cars', name: 'Машины', icon: 'Car' },
@@ -24,12 +30,31 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2">
               <Icon name="Zap" className="text-primary" size={28} />
               <span className="text-2xl font-bold text-primary">EcoTrike</span>
             </Link>
             <div className="flex items-center gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">
+                    <Icon name="Menu" size={18} className="mr-2" />
+                    Каталог
+                    <Icon name="ChevronDown" size={16} className="ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  {categories.map((category) => (
+                    <DropdownMenuItem key={category.path} asChild>
+                      <Link to={category.path} className="flex items-center cursor-pointer">
+                        <Icon name={category.icon} size={18} className="mr-3" />
+                        {category.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button variant="outline" size="sm">
                 <Icon name="Search" size={18} className="mr-2" />
                 Поиск
@@ -39,23 +64,9 @@ const Layout = ({ children }: LayoutProps) => {
               </Button>
             </div>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {categories.map((category) => (
-              <Link key={category.path} to={category.path}>
-                <Button
-                  variant={location.pathname === category.path ? 'default' : 'outline'}
-                  size="sm"
-                  className="whitespace-nowrap"
-                >
-                  <Icon name={category.icon} size={16} className="mr-2" />
-                  {category.name}
-                </Button>
-              </Link>
-            ))}
-          </div>
         </div>
       </nav>
-      <main className="pt-36 pb-20">
+      <main className="pt-28 pb-20">
         {children}
       </main>
       <footer className="bg-gray-900 text-white py-12 px-4">
