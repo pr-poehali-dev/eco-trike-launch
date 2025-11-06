@@ -118,6 +118,37 @@ export const products: Product[] = [
     rating: 4.8,
     reviews: 98,
   },
+  {
+    id: 'moto-cfmoto-675sr',
+    name: 'CFMOTO 675 SR',
+    price: 1908000,
+    category: 'motorcycles',
+    image: 'https://sc04.alicdn.com/kf/H29047e8f7d03452d9b4bff92a3f31207V.png',
+    images: [
+      'https://sc04.alicdn.com/kf/H29047e8f7d03452d9b4bff92a3f31207V.png',
+      'https://sc04.alicdn.com/kf/H519f60191afa4e18a4a44f1bdbc9edd8w.jpg',
+      'https://sc04.alicdn.com/kf/Hb44fce41db3f4d408af0ab985ef2725cw.jpg',
+      'https://sc04.alicdn.com/kf/H771d75698c2e4cb78999862ced76a0acO.jpg',
+      'https://sc04.alicdn.com/kf/H5b8d2dfeb4374e079ff3642c193a7162X.png',
+      'https://sc04.alicdn.com/kf/Hd6b990512e1142f791502af46505f2d4T.png'
+    ],
+    description: 'Высокопроизводительный дорожный мотоцикл CFMOTO 675 SR с 675CC — идеален для взрослых гонщиков: мощность и манёвренность для соревнований.',
+    specs: [
+      { label: 'Бренд', value: 'CFMOTO' },
+      { label: 'Модель', value: '675 SR' },
+      { label: 'Объём двигателя', value: '675CC' },
+      { label: 'Макс. мощность', value: '70 кВт @ 11000 об/мин' },
+      { label: 'Макс. крутящий момент', value: '70 Нм @ 8250 об/мин' },
+      { label: 'Вес', value: '195 кг' },
+      { label: 'Колесная база', value: '1400 мм' },
+      { label: 'Объём бака', value: '15 л' },
+      { label: 'Размеры', value: '2020×728×1105 мм' },
+      { label: 'Шины', value: 'Перед 120/70 R17, Зад 180/55 R17' },
+    ],
+    inStock: true,
+    rating: 4.9,
+    reviews: 24,
+  },
 ];
 
 export const getProductsByCategory = (category: string) => {
